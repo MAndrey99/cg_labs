@@ -1,0 +1,30 @@
+#ifndef SCENE_H
+#define SCENE_H
+
+#include <QGraphicsScene>
+
+/**
+ * @brief The Scene class
+ *
+ * Класс, описывающий область экрана, в которой отображается картинка
+ */
+class Scene : public QGraphicsScene {
+    Q_OBJECT
+
+public:
+    Scene(QObject* parent);
+    void rotate(); /// поворот изображения
+
+signals:
+    void rotation_point_selected();  /// сигнал о том, что rotation_point выбран и можно поворачивать изображение
+
+protected:
+    virtual void mousePressEvent(QGraphicsSceneMouseEvent *event);  /// выбор rotation_point
+
+private:
+    QImage image;  /// картинка, которая будет поворачиваться!
+    QPoint rotation_point; /// точка, относительно которой будет происходить поворот изображения
+    bool has_rotation_point = false;
+};
+
+#endif // SCENE_H
