@@ -7,7 +7,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->graphicsView->setScene(scene);
 
     connect(scene, &Scene::rotation_point_selected, this, &MainWindow::rotation_point_selected);
-    connect(ui->rotation, &QPushButton::pressed, scene, &Scene::rotate);
+    connect(ui->rotation, &QPushButton::pressed, scene, [this]() {
+        scene->rotate(ui->rotationAngle->value());
+    });
 }
 
 void MainWindow::rotation_point_selected() {
