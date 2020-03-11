@@ -6,7 +6,7 @@
 
 QT       += core gui
 
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets printsupport
 
 TARGET = 2l2
 TEMPLATE = app
@@ -26,10 +26,16 @@ CONFIG += c++11
 
 SOURCES += \
         main.cpp \
-        mainwindow.cpp
+        mainwindow.cpp \
+    ../qcustomplot/qcustomplot.cpp \
+    plotwidget.cpp \
+    cspline.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    ../qcustomplot/qcustomplot.h \
+    plotwidget.h \
+    cspline.h
 
 FORMS += \
         mainwindow.ui

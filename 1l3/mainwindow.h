@@ -1,16 +1,16 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "ui_mainwindow.h"
 #include <QMainWindow>
 #include <memory>
 #include "scene.h"
+#include "ui_mainwindow.h"
 
 namespace Ui {
 class MainWindow;
 }
 
-class MainWindow : public QMainWindow {
+class MainWindow: public QMainWindow {
     Q_OBJECT
 
 public:
@@ -24,4 +24,4 @@ private:
     Scene *scene;
 };
 
-#endif // MAINWINDOW_H
+#endif  // MAINWINDOW_H
