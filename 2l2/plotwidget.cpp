@@ -32,7 +32,10 @@ void PlotWidget::mousePressEvent(QMouseEvent* event) {
         }
     }
 
-    points.emplace_back(pos);
+    auto t = points.begin();
+    while (t != points.end() and t->x() < pos.x())
+        t++;
+    points.emplace(t, pos);
     qDebug() << "точка добавлена\n";
     updatePlot();
 }
@@ -54,31 +57,31 @@ void PlotWidget::updatePlot() {
         y.append(yAxis->pixelToCoord(it.y()));
     }
     graph()->setData(x, y);
-    replot();
 
-    // рисуем результат интерполяции с помощью нашего сплайна
+    if (points.size() > 2) {
+        // рисуем результат интерполяции с помощью нашего сплайна
 
-    // инициализируем график
-    addGraph();
-    graph()->setPen(QPen(Qt::red));
-    graph()->setLineStyle(QCPGraph::lsLine);
-    // graph()->setScatterStyle(QCPScatterStyle(QCPScatterStyle::ssNone));
+        // инициализируем график
+        addGraph();
+        graph()->setPen(QPen(Qt::red));
+        graph()->setLineStyle(QCPGraph::lsLine);
 
-    // создаем сплайн
-    std::vector<QPointF> graph_points;
-    x.reserve(int(points.size()));
-    for (auto a = x.begin(), b = y.begin(); a != x.end(); ++a, ++b)
-        graph_points.emplace_back(QPointF(*a, *b));
-    CSpline spline(graph_points);
+        // создаем сплайн
+        std::vector<QPointF> graph_points;
+        x.reserve(int(points.size()));
+        for (auto a = x.begin(), b = y.begin(); a != x.end(); ++a, ++b)
+            graph_points.emplace_back(QPointF(*a, *b));
+        CSpline spline(graph_points);
 
-    // создаем sx и предсказываем для него sy
-    QVector<double> sx;
-    sx.reserve(int(points.size()));
-    for (int i = points.front().x(); i <= points.back().x(); i++) {
-        sx.append(xAxis->pixelToCoord(i));
+        // создаем sx и предсказываем для него sy
+        QVector<double> sx;
+        sx.reserve(int(points.size()));
+        for (int i = points.front().x(); i < points.back().x(); i++) {
+            sx.append(xAxis->pixelToCoord(i));
+        }
+        auto sy = spline.predictY(sx);
+        graph()->setData(sx, sy);
     }
-    auto sy = spline.predictY(sx);
-    graph()->setData(sx, sy);
 
     graph()->rescaleAxes(true);
     replot();

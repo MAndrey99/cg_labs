@@ -10,6 +10,9 @@
  */
 class CSplineSubinterval {
 public:
+    CSplineSubinterval(float a, float b, float c, float d, float x);
+    CSplineSubinterval() {}
+
     /**
      * @brief производит расчет всех интервалов в сплайне
      * @param points: точки на основе кторовых идет интерполяция
@@ -20,8 +23,6 @@ public:
     double predictY(double x);  ///< предсказывает y по позиции x
 
 private:
-    CSplineSubinterval(float a, float b, float c, float d, float x);
-
     float a, b, c, d, x;  ///< коэффициенты
 };
 
