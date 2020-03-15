@@ -79,3 +79,7 @@ void Scene::rotate(double angle) {
     image = newImage;
     update();
 }
+
+QImage* Scene::getImage() {
+    return &image;
+}

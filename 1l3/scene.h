@@ -20,6 +20,8 @@ public:
      */
     void rotate(double angle);
 
+    QImage* getImage();
+
 signals:
     void rotation_point_selected();  ///< сигнал о том, что rotation_point выбран и можно поворачивать изображение
 
