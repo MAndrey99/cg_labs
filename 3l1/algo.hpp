@@ -4,7 +4,7 @@
 using namespace QtDataVisualization;
 
 //это сама функция для счета интерполяции
-QSurfaceDataArray *getData(QVector<QVector3D> &points)//очень важен порядок обхода точек
+QSurfaceDataArray *getData(QVector<QVector3D> &points, float step)//очень важен порядок обхода точек
 {
 
 
@@ -13,10 +13,10 @@ QSurfaceDataArray *getData(QVector<QVector3D> &points)//очень важен п
 
     QSurfaceDataArray *data = new QSurfaceDataArray;
 
-    for(float y = points[0].y(); y <= points[2].y(); y+=0.01)
+    for(float y = points[0].y(); y <= points[2].y(); y+=step)
     {
         QSurfaceDataRow *dataRow = new QSurfaceDataRow;
-        for(float x = points[0].x(); x<= points[1].x(); x+=0.01)
+        for(float x = points[0].x(); x<= points[1].x(); x+=step)
         {
             float x1 =points[0].x(), y1 =points[0].y();
             float x2= points[1].x(), y2 = points[2].y();
@@ -41,7 +41,7 @@ QSurfaceDataArray *get() {
     points[2] = QVector3D(0,1,1);
     points[3] = QVector3D(1,1,0.5);
     QSurfaceDataArray *data = new QSurfaceDataArray;
-    data = getData(points);
+    data = getData(points,0.01);
 
     return data;
 }
