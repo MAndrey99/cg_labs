@@ -9,8 +9,7 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     ui->setupUi(this);
 
     QSurface3DSeries *series = new QSurface3DSeries;
-    data = getData();
-    series->dataProxy()->resetArray(data);
+    series->dataProxy()->resetArray(get());
     surface.addSeries(series);
 
     ui->verticalLayout->addWidget(QWidget::createWindowContainer(&surface));
