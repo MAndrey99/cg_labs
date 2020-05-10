@@ -9,7 +9,8 @@ MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWin
     ui->setupUi(this);
 
     QSurface3DSeries *series = new QSurface3DSeries;
-    series->dataProxy()->resetArray(get());
+    data = get();
+    series->dataProxy()->resetArray(data);
     surface.addSeries(series);
 
     ui->verticalLayout->addWidget(QWidget::createWindowContainer(&surface));
@@ -22,6 +23,7 @@ void MainWindow::on_rotateX_pressed() {
             j.setX(-j.x());
 
     update_data();
+    surface.axisX()->setRange(-surface.axisX()->max(), -surface.axisX()->min());
 }
 
 void MainWindow::on_rotateY_pressed() {
