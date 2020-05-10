@@ -16,9 +16,15 @@ class MainWindow: public QMainWindow {
 
 public:
     MainWindow(QWidget *parent = nullptr);
+    void update_data();
     ~MainWindow();
+
+public slots:
+    void on_rotateX_pressed();
+    void on_rotateY_pressed();
 
 private:
     Ui::MainWindow *ui;
     Q3DSurface surface;
+    QSurfaceDataArray *data;
 };

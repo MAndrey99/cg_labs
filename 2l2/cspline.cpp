@@ -65,7 +65,6 @@ std::vector<CSplineSubinterval> CSplineSubinterval::buildSubintervals(const std:
 }
 
 CSpline::CSpline(const std::vector<QPointF> &points): subintervals(CSplineSubinterval::buildSubintervals(points)) {
-    assert(points.size() > 0);
     leftBoard = points[0].x();
 }
 
