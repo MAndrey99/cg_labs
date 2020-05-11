@@ -4,6 +4,7 @@
 
 PointsInputDialog::PointsInputDialog(QWidget *parent): QDialog(parent), ui(new Ui::PointsInputDialog) {
     ui->setupUi(this);
+    setWindowTitle("введите угловые точки билинейной поверхности");
 }
 
 PointsInputDialog::~PointsInputDialog() {
