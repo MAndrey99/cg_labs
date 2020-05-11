@@ -3,18 +3,23 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include "algo.hpp"
+#include "pointsinputdialog.h"
 #include "ui_mainwindow.h"
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
+    ui->verticalLayout->addWidget(QWidget::createWindowContainer(&surface));
+    build_plot();
+}
 
+void MainWindow::build_plot() {
     QSurface3DSeries *series = new QSurface3DSeries;
-    data = get();
+    data = getData(PointsInputDialog::getPoints(), .01f);
     series->dataProxy()->resetArray(data);
     surface.addSeries(series);
-
-    ui->verticalLayout->addWidget(QWidget::createWindowContainer(&surface));
     surface.show();
+    ui->rotateX->setEnabled(true);
+    ui->rotateY->setEnabled(true);
 }
 
 void MainWindow::on_rotateX_pressed() {

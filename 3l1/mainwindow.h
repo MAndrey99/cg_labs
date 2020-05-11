@@ -16,6 +16,7 @@ class MainWindow: public QMainWindow {
 
 public:
     MainWindow(QWidget *parent = nullptr);
+    void build_plot();
     void update_data();
     ~MainWindow();
 
@@ -27,4 +28,5 @@ private:
     Ui::MainWindow *ui;
     Q3DSurface surface;
     QSurfaceDataArray *data;
+    bool has_plot = false;
 };

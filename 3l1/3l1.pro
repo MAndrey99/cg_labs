@@ -17,14 +17,17 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    pointsinputdialog.cpp
 
 HEADERS += \
     algo.hpp \
-    mainwindow.h
+    mainwindow.h \
+    pointsinputdialog.h
 
 FORMS += \
-    mainwindow.ui
+    mainwindow.ui \
+    pointsinputdialog.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

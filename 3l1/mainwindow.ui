@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>936</width>
-    <height>634</height>
+    <width>800</width>
+    <height>557</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -34,7 +34,7 @@
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
-     <layout class="QVBoxLayout" name="verticalLayout_2">
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
       <property name="spacing">
        <number>6</number>
       </property>
@@ -42,6 +42,9 @@
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QPushButton" name="rotateX">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
            <string>rotateX</string>
           </property>
@@ -49,6 +52,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="rotateY">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
            <string>rotateY</string>
           </property>
@@ -60,17 +66,6 @@
     </item>
    </layout>
   </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>936</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <resources/>
  <connections/>

@@ -1,13 +1,12 @@
 #pragma once
 #include <QSurfaceDataArray>
+#include <array>
 
 using namespace QtDataVisualization;
 
 //это сама функция для счета интерполяции
-QSurfaceDataArray *getData(QVector<QVector3D> &points, float step) {
+QSurfaceDataArray *getData(std::array<QVector3D, 4> points, float step) {
     //очень важен порядок обхода точек
-    if (points.size() != 4)
-        return nullptr;
 
     QSurfaceDataArray *data = new QSurfaceDataArray;
 
@@ -30,7 +29,7 @@ QSurfaceDataArray *getData(QVector<QVector3D> &points, float step) {
 
 //тут реализован пример из википкдии
 QSurfaceDataArray *get() {
-    QVector<QVector3D> points(4);
+    std::array<QVector3D, 4> points;
     points[0] = QVector3D(0, 0, 0);
     points[1] = QVector3D(1, 0, 1);
     points[2] = QVector3D(0, 1, 1);
