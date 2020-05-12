@@ -7,14 +7,15 @@
 class drawer: public QWidget {
     Q_OBJECT
 public:
-    explicit drawer(QWidget *parent = 0);
+    explicit drawer(QWidget *parent = nullptr);
+
+protected:
+    virtual void paintEvent(QPaintEvent *e) override;
+    virtual void mousePressEvent(QMouseEvent *event) override;
+    virtual void mouseReleaseEvent(QMouseEvent *event) override;
 
 signals:
-protected:
-    void paintEvent(QPaintEvent *e);
-    virtual void mousePressEvent(QMouseEvent *event);
-    virtual void mouseReleaseEvent(QMouseEvent *event);
-    virtual void mouseMoveEvent(QMouseEvent *event);
+    void points_n_updated(int);
 
 public slots:
     void gen_lines();
@@ -22,8 +23,8 @@ public slots:
 
 private:
     QVector<QLine> lines;
+    QList<QPoint> sides;
     int box_sides;
     int cur_amount;
-    QList<QPoint> sides;
     bool mDrawMode;
 };

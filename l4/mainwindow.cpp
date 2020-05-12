@@ -3,8 +3,10 @@
 
 MainWindow::MainWindow(QWidget *parent): QMainWindow(parent), ui(new Ui::MainWindow) {
     ui->setupUi(this);
-    QObject::connect(this, SIGNAL(gen_lines()), ui->drawField, SLOT(gen_lines()));
-    QObject::connect(this, SIGNAL(do_box(int)), ui->drawField, SLOT(do_box(int)));
+    ui->menuBar->addAction("сгенерировать линии", this, &MainWindow::on_linesBut_clicked);
+    connect(this, &MainWindow::gen_lines, ui->drawField, &drawer::gen_lines);
+    connect(this, &MainWindow::do_box, ui->drawField, &drawer::do_box);
+    connect(ui->drawField, &drawer::points_n_updated, this, &MainWindow::on_points_n_updated);
 }
 
 MainWindow::~MainWindow() {
@@ -13,8 +15,13 @@ MainWindow::~MainWindow() {
 
 void MainWindow::on_linesBut_clicked() {
     emit gen_lines();
+    emit do_box(ui->spinBox->value());
 }
 
-void MainWindow::on_boxBut_clicked() {
-    emit(do_box(ui->sides->text().toInt()));
+void MainWindow::on_spinBox_valueChanged(int n) {
+    emit do_box(n);
+}
+
+void MainWindow::on_points_n_updated(int n) {
+    ui->label_2->setText(QString::number(n));
 }

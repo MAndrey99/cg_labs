@@ -1,6 +1,8 @@
 #include "drawer.h"
 #include <QPainter>
 #include <QStyleOption>
+#include <cmath>
+#include <numeric>
 #include "QTime"
 #include "stdlib.h"
 
@@ -29,10 +31,8 @@ void drawer::mouseReleaseEvent(QMouseEvent *event) {
     }
 }
 
-void drawer::mouseMoveEvent(QMouseEvent *event) {}
-
 double scalar(QPoint a, QPoint b) {
-    return (double)a.x() * b.x() + a.y() * b.y();
+    return double(a.x() * b.x() + a.y() * b.y());
 }
 
 QPoint normal(QPoint a, QPoint b, QPoint z) {
@@ -42,36 +42,26 @@ QPoint normal(QPoint a, QPoint b, QPoint z) {
 
     double dot = scalar(v, n);
 
-    if (!dot) {
+    if (fabs(dot) <= std::numeric_limits<double>::epsilon()) {
         return QPoint();
     } else if (dot < 0) {
-        // превращаем во внутр. нормаль
         n *= -1;
     }
 
     return n;
 }
 
-void CyrusBeckAlgorithm(QVector<QPoint> polygon,
-                        // точки полигона(замкнутого),
-                        // последняя точка в векторе равна первой
-                        QPoint a, QPoint b, QPainter &painter)
-// line a----------------b
-{
+void CyrusBeckAlgorithm(QVector<QPoint> polygon, QPoint a, QPoint b, QPainter &painter) {
     QPoint d = b - a;
     QPoint dir(d.x(), d.y());
 
     double tEnter = 0.0;
     double tLeave = 1.1;
 
-    // эта хрень начало предидущего ребра,
-    // относительно рассматриваемого
-    // помогает находить нормаль
-    // и определять Вход/Выход линии
     QPoint boundary(polygon[polygon.size() - 2]);
 
     for (size_t i = 0; i < polygon.size() - 1; ++i) {
-        QPoint edge_p0(polygon[i + 0]);
+        QPoint edge_p0(polygon[i]);
         QPoint edge_p1(polygon[i + 1]);
 
         QPoint norm(normal(edge_p0, edge_p1, boundary));
@@ -80,15 +70,13 @@ void CyrusBeckAlgorithm(QVector<QPoint> polygon,
         double num = scalar(w, norm);
         double den = scalar(dir, norm);
 
-        if (!den) {
-            if (num < 0) {
+        if (fabs(den) <= std::numeric_limits<double>::epsilon()) {
+            if (num < 0)
                 return;
-            } else {
+            else
                 continue;
-            }
         }
 
-        // параметр ребра
         double t = -num / den;
 
         if (den > 0) {
@@ -120,15 +108,14 @@ void CyrusBeckAlgorithm(QVector<QPoint> polygon,
     painter.drawLine(clipped_p1, b);  // конец отсечения -> конец линии
 }
 
-void drawer::paintEvent(QPaintEvent *e) {
+void drawer::paintEvent(QPaintEvent *) {
     QStyleOption opt;
     opt.init(this);
     QPainter painter(this);
     style()->drawPrimitive(QStyle::PE_Widget, &opt, &painter, this);
     painter.setPen(Qt::gray);
 
-    painter.drawText(QPoint(10, 10), QString::number(box_sides));
-    painter.drawText(QPoint(100, 50), QString::number(cur_amount));
+    emit points_n_updated(cur_amount);
 
     for (int i = 0; i < lines.size(); i++)
         painter.drawLine(lines[i]);
@@ -175,8 +162,7 @@ inline int rand_less(int number) {
 void drawer::gen_lines() {
     lines.clear();
     sides.clear();
-    QTime midnight(0, 0, 0);
-    qsrand(midnight.secsTo(QTime::currentTime()));
+    qsrand(uint(time(nullptr)));
 
     int amount = qrand() % 20;
     QLine buf;
